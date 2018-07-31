@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
-
 import fbase from '../../config/firebase';
+
+import './logis.css'
 
 /*
  *  Default user:       admin@admin.com
@@ -25,11 +25,11 @@ class Login extends Component {
     login(e) {
         e.preventDefault();
         fbase.auth()
-                .signInWithEmailAndPassword(this.state.email, this.state.password)
-                .then((u) => {})
-                .catch((error) => {
-                    console.log(error);
-                });
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then((u) => { })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     signup(e) {
@@ -37,7 +37,7 @@ class Login extends Component {
         fbase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => { })
-            .then((u) => {console.log(u)})
+            .then((u) => { console.log(u) })
             .catch((error) => {
                 console.log(error);
             });
@@ -49,30 +49,33 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div className="sign-in-form">
                 <form>
-                    <div>
-                        <label>Email address</label>
-                        <input type="email"
-                               name="email"
-                               id="email"
-                               value={ this.state.email }
-                               onChange={ this.handleChange }
-                               placeholder="Enter email" />
-                    </div>
-                    <div>
-                        <label>Password</label>
-                        <input type="password"
-                               name="password"
-                               id="password"
-                               value={ this.state.password }
-                               onChange={ this.handleChange }
-                               placeholder="Enter password" />
-                    </div>
+                    <fieldset>
+                        <legend>Welcome to iChat!</legend>
+                        <div className="controls">
 
+                            <label htmlFor="email">Email: </label>
+                            <input type="email"
+                                name="email"
+                                id="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                                placeholder="Enter email" />
 
-                    <button type="submit" onClick={ this.login }>Login</button>
-                    <button onClick={ this.signup }>Signup</button>
+                            <label htmlFor="password">Password: </label>
+                            <input type="password"
+                                name="password"
+                                id="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                                placeholder="Enter password" />
+
+                            <button type="submit" onClick={this.login}>Login</button>
+                            <button type="reset" onClick={this.signup}>Signup</button>
+
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         );
