@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .site {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh; 
+    margin: 0 auto;           
+  } 
+      
+  .item {
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 0.0em;            
+  }
+  
+  .item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .header {
+    background-color: red;
+  }   
+  
+  .friend-list {
+    background-color: #00C3FF;
+    display: flex;
+    flex: auto;
+    justify-content: space-around;
+    align-content: flex-start;
+    align-items: center;
+  }
+  
+  .main {
+    display: flex;
+    flex: auto;
+    justify-content: space-around;
+    align-content: flex-start;
+    align-items: center;
+    background-color: greenyellow;
+  }
+  
+  .footer {
+    background-color: orangered;
+  }
+  
+  .my_flex {
+    border: solid 1px white;
+    padding: 0.5em 1em;
+  }
+  
+  .my_flex:nth-child(1) {
+    align-self: flex-start;
+  }
+  
+  .my_flex:nth-child(2) {
+    align-self: center;
+  }
+  
+  .my_flex:nth-child(3) {
+    align-self: flex-end;
+  }
+  
+  @supports (display: grid) {
+    @media screen and (min-width: 700px)  {
+        .site {
+            display: grid;
+            grid-template-columns: 1fr 1fr 250px;
+            grid-template-rows: auto 8em 1fr auto;
+            grid-template-areas: 
+                "header header header"
+                "main main friend-list"
+                "main main friend-list"
+                "footer footer footer";
+            grid-gap: 0.0em; 
+        }
+  
+        .item {
+            margin-bottom: 0;
+        }
+  
+        .header {
+            grid-area: header;
+        }
+  
+        .friend-list {
+            grid-area: friend-list;
+        }
+  
+        .main {
+            grid-area: main;
+        }
+  
+        .footer {
+            grid-area: footer;
+        }
+    }
+  }

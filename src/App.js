@@ -33,14 +33,7 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-                <div className="site">
-                    <div className="item header">Header</div>
-                    <div className="item friend-list">Friend list</div>
-                    <div className="item main">Main</div>
-                    <footer className="item footer">Footer</footer>
-                </div>
-            </div>
+            <Home />            
         );
     }
 }
