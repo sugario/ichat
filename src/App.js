@@ -34,11 +34,13 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-            {
-                this.state.user
-                    ? <Home />
-                    : <Login />
-            }
+                <Home />
+                {
+                    this.state.user
+                        ? <div />
+                        : <Login />
+
+                }
             </div>
         );
     }
