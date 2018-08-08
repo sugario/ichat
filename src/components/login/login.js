@@ -23,30 +23,32 @@ class Login extends Component {
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.signup = this.signup.bind(this);
+        this.recoverAccount = this.recoverAccount.bind(this);
 
         this.state = {
             email: '',
             password: ''
         };
     }
-    
+
     handleChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
-    
-    applyErrorText = (text) => {
+
+    applyErrorText(text) {
+        this.errorParagraph.style.color = Color.RED;
         this.errorParagraph.textContent = text;
         this.errorParagraph.style.marginBottom = '25px';
     }
 
-    invalidEmail = () => {
+    invalidEmail() {
         this.emailInput.style.borderColor = Color.RED;
         this.passwordInput.style.borderColor = Color.GREEN;
 
         this.applyErrorText('The email address is badly formatted.');
     }
 
-    wrongPassword = () => {
+    wrongPassword() {
         this.emailInput.style.borderColor = Color.GREEN;
         this.passwordInput.style.borderColor = Color.RED;
 
@@ -88,30 +90,43 @@ class Login extends Component {
             });
     }
 
+    recoverAccount(e) {
+        e.preventDefault();
+        fbase.auth()
+            .sendPasswordResetEmail(this.state.email)
+            .then(() => {
+                this.applyErrorText('Check your mail!');
+                this.errorParagraph.style.color = Color.GREEN;
+
+            }).catch((error) => {
+                this.applyErrorText('The email address is badly formatted or account does not exist.');
+            });
+    }
+
     render() {
         return (
             <div id='login-overlay'>
                 <form id='login-form'>
                     <p className='center-text'>Welcome to iChat!</p>
 
-                    <img id='avatar' src={ require( '../../images/avatar.png') } alt='avatar' />
+                    <img id='avatar' src={require('../../images/avatar.png')} alt='avatar' />
 
-                    <input type="email" name="email" id="email"
-                           value={ this.state.email } onChange={ this.handleChange }
-                           ref={(element) => { this.emailInput = element; }}
-                           placeholder="Enter email" />
+                    <input type='email' name='email' id='email'
+                        value={this.state.email} onChange={this.handleChange}
+                        ref={(element) => { this.emailInput = element; }}
+                        placeholder='Enter email' />
 
-                    <input type="password" name="password" id="password"
-                           value={ this.state.password } onChange={ this.handleChange }
-                           ref={(element) => { this.passwordInput = element; }}
-                           placeholder="Enter password" />
+                    <input type='password' name='password' id='password'
+                        value={this.state.password} onChange={this.handleChange}
+                        ref={(element) => { this.passwordInput = element; }}
+                        placeholder='Enter password' />
 
                     <p id='error-text' ref={(element) => { this.errorParagraph = element; }} />
 
-                    <button className="green" type="submit" onClick={ this.login }>Login</button>
-                    <button className="blue" type="submit" value={ this.state.email }>Recover your account</button>
+                    <button className='green' type='submit' onClick={this.login}>Login</button>
+                    <button className='blue' type='submit' onClick={this.recoverAccount}>Recover your account</button>
 
-                    <a className='center-text' onClick={ this.signup } href=''>Sign up</a>
+                    <a className='center-text' onClick={this.signup} href=''>Sign up</a>
                 </form>
             </div>
         );
