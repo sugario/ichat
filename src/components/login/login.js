@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import fbase from '../../config/firebase';
-
 import Color from '../constants/color';
-
 import './logis.css'
 
 /*
@@ -22,7 +21,6 @@ class Login extends Component {
 
         this.login = this.login.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.signup = this.signup.bind(this);
         this.recoverAccount = this.recoverAccount.bind(this);
 
         this.state = {
@@ -79,17 +77,6 @@ class Login extends Component {
             });
     }
 
-    signup(e) {
-        e.preventDefault();
-        fbase.auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => { })
-            .then((u) => { console.log(u) })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
-
     recoverAccount(e) {
         e.preventDefault();
         fbase.auth()
@@ -126,7 +113,7 @@ class Login extends Component {
                     <button className='green' type='submit' onClick={this.login}>Login</button>
                     <button className='blue' type='submit' onClick={this.recoverAccount}>Recover your account</button>
 
-                    <a className='center-text' onClick={this.signup} href=''>Sign up</a>
+                    <Link className='center-text' to='/registration'>Sign up</Link>
                 </form>
             </div>
         );
