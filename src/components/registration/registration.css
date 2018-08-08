@@ -1,0 +1,27 @@
+input, button {
+    width: 100%;
+}
+
+label {
+    margin: 8px 0;
+}
+
+#registration-overlay {
+    height: 100vh;
+}
+
+#registration-form {
+    padding: 16px;
+}
+
+#registration-form > * {
+    display: block;
+}
+
+.hr-bottom {
+    margin-top: 35px;
+}
+
+.signin {
+    margin-top: 15px;
+}

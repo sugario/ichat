@@ -49,6 +49,11 @@ p {
     font-size: 20px;
 }
 
+hr {
+    border: 1px solid #3498db;
+    margin-bottom: 25px;
+}
+
 .App {
     display: flex;
     flex-direction: column;
@@ -65,4 +70,8 @@ p {
 
 .blue {
     background: #3498db;
+}
+
+.no-radius {
+    border-radius: 0px;
 }
