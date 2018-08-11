@@ -68,10 +68,10 @@
             grid-template-columns: 1fr 1fr 250px;
             grid-template-rows: auto 8em 1fr auto;
             grid-template-areas:
-                "header header header"
-                "main main friend-list"
-                "main main friend-list"
-                "footer footer footer";
+                'header header header'
+                'main main friend-list'
+                'main main friend-list'
+                'footer footer footer';
             grid-gap: 0.0em;
         }
 

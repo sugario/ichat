@@ -16,14 +16,14 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="App">
-                <div className="site">
-                    <div className="item header">Header</div>
-                    <div className="item friend-list">Friend list</div>
-                    <div className="item main">
+            <div className='App'>
+                <div className='site'>
+                    <div className='item header'>Header</div>
+                    <div className='item friend-list'>Friend list</div>
+                    <div className='item main'>
                         <button onClick={ this.logout }>Logout</button>
                     </div>
-                    <footer className="item footer">Footer</footer>
+                    <footer className='item footer'>Footer</footer>
                 </div>
             </div>
         );

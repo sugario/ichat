@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 import fbase from '../../config/firebase';
 
@@ -13,13 +13,11 @@ class Registration extends Component {
 
         this.signup = this.signup.bind(this);
 
-        this.handleInvalidEmail = this.handleInvalidEmail.bind(this);
-        this.handleSignupError = this.handleSignupError.bind(this);
-
         this.state = {
             email: '',
             password: '',
-            passwordRepeat: ''
+            passwordRepeat: '',
+            redirectToHome: false
         };
     }
 
@@ -27,38 +25,29 @@ class Registration extends Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    handleInvalidEmail() {
-        console.log('auth/invalid-email');
-    }
-
-    handleSignupError(error) {
-        switch (error.code) {
-            // case 'auth/invalid-email':
-            //     this.handleInvalidEmail();
-            //     break;
-            default:
-                console.log(error);
-        }
-    }
-
     signup(e) {
         e.preventDefault();
 
         if (this.state.password !== this.state.passwordRepeat) {
-            this.handleSignupError({ code: 'passwords-not-maching' });
+            alert('Oh no! Something went wrong.');
             return;
         }
 
         fbase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => { })
             .then((u) => { console.log(u) })
-            .catch((error) => {
-                this.handleInvalidEmail(error);
+            .then((u) => { 
+                this.setState({ redirectToHome: true });
+            }).catch((error) => {
+                alert('Oh no! Something went wrong.');
             });
     }
 
     render() {
+        if (this.state.redirectToHome) {
+            return <Redirect to='/home' />
+        }
+
         return (
             <div id='registration-overlay'>
                 <form id='registration-form'>
@@ -77,7 +66,7 @@ class Registration extends Component {
                         className='no-radius' required />
 
                     <label>Repeat Password</label>
-                    <input type='password' placeholder='Repeat password' name='password-repeat' id='password-repeat'
+                    <input type='password' placeholder='Repeat password' name='passwordRepeat' id='passwordRepeat'
                         onChange={this.handleChange} value={this.state.passwordRepeat}
                         className='no-radius' required />
 
