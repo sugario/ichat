@@ -1,15 +1,18 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import React from 'react';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect
+} from 'react-router-dom'
 
-import fbase from './config/firebase';
-
-import Login from './components/login/login'
-import Home from './components/home/home'
-import Registration from './components/registration/registration'
-
+import Firebase from './config/firebase';
+import Login from './components/login/login';
+import Home from './components/home/home';
+import Registration from './components/registration/registration';
 import './App.css';
 
-class App extends Component {
+export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,14 +25,11 @@ class App extends Component {
     }
 
     authListener() {
-        fbase.auth().onAuthStateChanged((user) => {
-            console.log(user);
+        Firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user });
-                localStorage.setItem('user', user.uid);
             } else {
                 this.setState({ user: null });
-                localStorage.removeItem('user');
             }
         });
     }
@@ -44,7 +44,7 @@ class App extends Component {
                             return (
                                 <div>
                                     {this.state.user ? <div /> : <Login />}
-                                    <Home />
+                                    <Home user={this.state.user} />
                                 </div>
                             );
                         }} />
@@ -55,5 +55,3 @@ class App extends Component {
         );
     }
 }
-
-export default App;

@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
-
-import fbase from '../../config/firebase';
-
+import React from 'react';
+import Firebase from '../../config/firebase';
+import Chat from '../chat/chat';
 import './home.css'
 
-class Home extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
-        this.logout = this.logout.bind(this);
+
+        this.state = {
+            user: ''
+        };
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({ user: props.user });
     }
 
     logout() {
-        fbase.auth().signOut();
+        Firebase.auth().signOut();
     }
 
     render() {
@@ -21,7 +27,8 @@ class Home extends Component {
                     <div className='item header'>Header</div>
                     <div className='item friend-list'>Friend list</div>
                     <div className='item main'>
-                        <button onClick={ this.logout }>Logout</button>
+                        <Chat user={this.state.user} />
+                        <button onClick={this.logout.bind(this)}>Logout</button>
                     </div>
                     <footer className='item footer'>Footer</footer>
                 </div>
@@ -29,5 +36,3 @@ class Home extends Component {
         );
     }
 }
-
-export default Home;

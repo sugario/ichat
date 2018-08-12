@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom'
 
-import fbase from '../../config/firebase';
+import Firebase from '../../config/firebase';
 
 import './registration.css';
 
@@ -33,7 +33,7 @@ class Registration extends Component {
             return;
         }
 
-        fbase.auth()
+        Firebase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => { console.log(u) })
             .then((u) => { 

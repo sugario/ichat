@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import fbase from '../../config/firebase';
+import Firebase from '../../config/firebase';
 import Color from '../constants/color';
 import './logis.css'
 
@@ -69,7 +69,7 @@ class Login extends Component {
 
     login(e) {
         e.preventDefault();
-        fbase.auth()
+        Firebase.auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((u) => { })
             .catch((error) => {
@@ -79,7 +79,7 @@ class Login extends Component {
 
     recoverAccount(e) {
         e.preventDefault();
-        fbase.auth()
+        Firebase.auth()
             .sendPasswordResetEmail(this.state.email)
             .then(() => {
                 this.applyErrorText('Check your mail!');
