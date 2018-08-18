@@ -19,6 +19,8 @@ class Registration extends Component {
             passwordRepeat: '',
             redirectToHome: false
         };
+
+        this.usersRef = Firebase.database().ref().child('users');
     }
 
     handleChange(e) {
@@ -35,8 +37,17 @@ class Registration extends Component {
 
         Firebase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => { console.log(u) })
-            .then((u) => { 
+            .then((u) => {
+                this.usersRef.push({
+                    uid: u.user.uid,
+                    displayName: u.user.displayName,
+                    email: u.user.email,
+                    emailVerified: u.user.emailVerified,
+                    photoURL: u.user.photoURL,
+                    phoneNumber: u.user.phoneNumber,
+                    metadata: u.user.metadata
+                });
+            }).then((u) => {
                 this.setState({ redirectToHome: true });
             }).catch((error) => {
                 alert('Oh no! Something went wrong.');
