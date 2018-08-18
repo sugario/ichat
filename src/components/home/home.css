@@ -39,27 +39,6 @@
     background-color: greenyellow;
 }
 
-.footer {
-    background-color: orangered;
-}
-
-.my_flex {
-    border: solid 1px white;
-    padding: 0.5em 1em;
-}
-
-.my_flex:nth-child(1) {
-    align-self: flex-start;
-}
-
-.my_flex:nth-child(2) {
-    align-self: center;
-}
-
-.my_flex:nth-child(3) {
-    align-self: flex-end;
-}
-
 @supports (display: grid) {
     @media screen and (min-width: 700px)  {
         .site {
@@ -69,8 +48,7 @@
             grid-template-areas:
                 'header header header'
                 'main main friend-list'
-                'main main friend-list'
-                'footer footer footer';
+                'main main friend-list';
             grid-gap: 0.0em;
         }
 
@@ -88,10 +66,6 @@
 
         .main {
             grid-area: main;
-        }
-
-        .footer {
-            grid-area: footer;
         }
     }
 }

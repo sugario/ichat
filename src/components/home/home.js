@@ -122,7 +122,6 @@ export default class extends React.Component {
                         <Chat user={this.state.user} />
                         <button onClick={this.logout.bind(this)}>Logout</button>
                     </div>
-                    <footer className='item footer'>Footer</footer>
                 </div>
             </div>
         );
