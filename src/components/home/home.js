@@ -20,14 +20,16 @@ export default class extends React.Component {
     }
 
     handleChange(e) {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value },
+                      this.handleSearchKeyPress);
     }
 
-    handleSearchKeyPress(e) {
+    handleSearchKeyPress() {
         this.usersRef
             .orderByChild('email')
             .startAt(this.state.search)
             .endAt(this.state.search + '\uf8ff')
+            .limitToFirst(10)
             .on('value', snapshot => {
                 snapshot.forEach(user => {
                     console.log(user.val());
@@ -50,7 +52,7 @@ export default class extends React.Component {
                                placeholder='Search people'
                                value={this.state.search}
                                onChange={this.handleChange.bind(this)}
-                               onKeyDown={this.handleSearchKeyPress.bind(this)} />
+                        />
                     </div>
                     <div className='item main'>
                         <Chat user={this.state.user} />
