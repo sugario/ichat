@@ -41,6 +41,67 @@ export default class extends React.Component {
         Firebase.auth().signOut();
     }
 
+    handleAddFriend(e) {
+        e.preventDefault();
+
+        this.usersRef
+            .orderByChild('email')
+            .equalTo(this.state.user.email)
+            .once('child_added', currentUser => {
+                let friendList = currentUser.child('friendList').val();
+                if (!friendList) {
+                    friendList = [];
+                }
+
+                if (this.state.search && friendList.indexOf(this.state.search) < 0) {
+                    friendList.push(this.state.search);
+                    friendList.sort();
+                    currentUser.ref.update({ friendList: friendList });
+                }
+            });
+    }
+
+    handleRemoveFriend(e) {
+        e.preventDefault();
+
+        this.usersRef
+            .orderByChild('email')
+            .equalTo(this.state.user.email)
+            .once('child_added', currentUser => {
+                let friendList = currentUser.child('friendList').val();
+                if (!friendList || !this.state.search) {
+                    return;
+                }
+
+                const friendIndex = friendList.indexOf(this.state.search);
+                if (friendIndex > -1) {
+                    friendList.splice(friendIndex, 1);
+                    currentUser.ref.update({ friendList: friendList });
+                }
+            });
+    }
+
+    async logFriendsData(e) {
+        e.preventDefault();
+
+        let friendList;
+        await this.usersRef
+            .orderByChild('email')
+            .equalTo(this.state.user.email)
+            .once('child_added', currentUser => {
+                friendList = currentUser.child('friendList').val();
+            });
+
+        friendList.forEach(friend => {
+            this.usersRef
+                .orderByChild('email')
+                .equalTo(friend)
+                .once('value', user => {
+                    console.log(user.val());
+                });
+        });
+    }
+
     render() {
         return (
             <div className='App'>
@@ -53,6 +114,9 @@ export default class extends React.Component {
                                value={this.state.search}
                                onChange={this.handleChange.bind(this)}
                         />
+                        <button onClick={this.handleAddFriend.bind(this)}>Add friend</button>
+                        <button onClick={this.handleRemoveFriend.bind(this)}>Remove friend</button>
+                        <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
                     </div>
                     <div className='item main'>
                         <Chat user={this.state.user} />

@@ -24,7 +24,6 @@
 
 .friend-list {
     background-color: #00C3FF;
-    display: flex;
     flex: auto;
     justify-content: space-around;
     align-content: flex-start;
