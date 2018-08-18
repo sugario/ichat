@@ -21,10 +21,14 @@
 .header {
     background-color: #5900a6;
     display: flex;
-    justify-content: flex-start;
-    color: #ffff00;
-    font-size: 35px;
+    justify-content: space-between;
     padding-left: 150px;
+    padding-right: 50px;
+}
+
+.header > .logo {
+  color: #ffff00;
+  font-size: 35px;
 }
 
 .friend-list {

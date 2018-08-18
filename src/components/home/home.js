@@ -106,7 +106,10 @@ export default class extends React.Component {
         return (
             <div className='App'>
                 <div className='site'>
-                    <div className='item header'>iChat</div>
+                    <div className='item header'>
+                        <div className="logo">iChat</div>
+                        <button onClick={this.logout.bind(this)}>Logout</button>
+                    </div>
                     <div className='item friend-list'>
                         <input name='search'
                                type='text'
@@ -120,7 +123,6 @@ export default class extends React.Component {
                     </div>
                     <div className='item main'>
                         <Chat user={this.state.user} />
-                        <button onClick={this.logout.bind(this)}>Logout</button>
                     </div>
                 </div>
             </div>

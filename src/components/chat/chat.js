@@ -67,7 +67,7 @@ export default class extends React.Component {
             <div className='form_chat'>
                 <div className='form_message'>
                     {this.state.list.map((item, index) =>
-                        <Message key={index} message={item} />
+                        <Message key={index} message={item} currentUser={this.state.userName} />
                     )}
                 </div>
                 <div className='form_row'>
