@@ -106,7 +106,7 @@ export default class extends React.Component {
         return (
             <div className='App'>
                 <div className='site'>
-                    <div className='item header'>Header</div>
+                    <div className='item header'>iChat</div>
                     <div className='item friend-list'>
                         <input name='search'
                                type='text'

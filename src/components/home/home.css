@@ -19,11 +19,16 @@
 }
 
 .header {
-    background-color: red;
+    background-color: #5900a6;
+    display: flex;
+    justify-content: flex-start;
+    color: #ffff00;
+    font-size: 35px;
+    padding-left: 150px;
 }
 
 .friend-list {
-    background-color: #00C3FF;
+    background-color: #6495ED;
     flex: auto;
     justify-content: space-around;
     align-content: flex-start;
@@ -36,7 +41,7 @@
     justify-content: space-around;
     align-content: flex-start;
     align-items: center;
-    background-color: greenyellow;
+    background-color: #EEFFFF;
 }
 
 @supports (display: grid) {
