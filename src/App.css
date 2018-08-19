@@ -42,6 +42,7 @@ input {
     box-sizing: border-box;
     font-size: 15px;
     padding: 12px 20px;
+    width: 100%;
 }
 
 input:focus {
