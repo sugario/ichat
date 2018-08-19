@@ -9,14 +9,29 @@ export default class extends React.Component {
 
         this.state = {
             user: '',
-            search: ''
+            search: '',
+            friendList: []
         };
 
         this.usersRef = Firebase.database().ref().child('users');
     }
 
     componentWillReceiveProps(props) {
-        this.setState({ user: props.user });
+        this.setState({ user: props.user },
+                      this.updateFriendlist);
+    }
+
+    updateFriendlist() {
+        if (!this.state.user) {
+            return;
+        }
+
+        this.usersRef
+            .orderByChild('email')
+            .equalTo(this.state.user.email)
+            .once('child_added', currentUser => {
+                this.setState({ friendList: currentUser.child('friendList').val() });
+            });
     }
 
     handleChange(e) {
@@ -91,6 +106,10 @@ export default class extends React.Component {
             .once('child_added', currentUser => {
                 friendList = currentUser.child('friendList').val();
             });
+
+        if (!friendList) {
+            return
+        }
 
         friendList.forEach(friend => {
             this.usersRef
