@@ -16,7 +16,7 @@ export default class extends React.Component {
 
     render() {
         if (!this.state.data) {
-            return <div/>
+            return <div />
         }
 
         return (
@@ -25,7 +25,7 @@ export default class extends React.Component {
                     this.state.data.map((element, i) => {
                         return (
                             <div key={i} className='friend'>
-                                <div>{element}</div>
+                                <div>{element.email}</div>
                                 <div className='status'>(Online)</div>
                                 <button className='add-button'>Add</button>
                             </div>

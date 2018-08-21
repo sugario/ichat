@@ -24,17 +24,31 @@ export default class extends React.Component {
                       this.updateFriendlist);
     }
 
-    updateFriendlist() {
+    async updateFriendlist() {
         if (!this.state.user) {
             return;
         }
 
-        this.usersRef
+        let friendList = [];
+        let emailList = [];
+
+        await this.usersRef
             .orderByChild('email')
             .equalTo(this.state.user.email)
             .once('child_added', currentUser => {
-                this.setState({ friendList: currentUser.child('friendList').val() });
+                emailList = currentUser.child('friendList').val();
             });
+
+        for (let email of emailList) {
+            await this.usersRef
+                .orderByChild('email')
+                .equalTo(email)
+                .once('child_added', friend => {
+                    friendList.push(friend.val());
+                });
+        }
+
+        this.setState({ friendList: friendList });
     }
 
     handleChange(e) {
@@ -51,7 +65,7 @@ export default class extends React.Component {
             .on('value', snapshot => {
                 let searchResult = [];
                 snapshot.forEach(user => {
-                    searchResult.push(user.val().email);
+                    searchResult.push(user.val());
                 });
 
                 this.setState({ searchResult: searchResult });
@@ -145,7 +159,7 @@ export default class extends React.Component {
                         <div className="logo">iChat</div>
                         <button onClick={this.logout.bind(this)}>Logout</button>
                     </div>
-                    <div className='item friend-list'>
+                    <div className='item fr iend-list'>
                         <input name='search'
                                type='text'
                                placeholder='Search people'
@@ -159,7 +173,7 @@ export default class extends React.Component {
                                 ? <FriendList data={this.state.searchResult} />
                                 : <FriendList data={this.state.friendList} />
                         }
-                        
+
                         <button onClick={this.handleAddFriend.bind(this)}>Add friend</button>
                         <button onClick={this.handleRemoveFriend.bind(this)}>Remove friend</button>
                         <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
