@@ -73,6 +73,7 @@ export default class extends React.Component {
                     friendList.push(this.state.search);
                     friendList.sort();
                     currentUser.ref.update({ friendList: friendList });
+                    this.setState({ friendList: friendList });
                 }
             });
     }
@@ -93,6 +94,7 @@ export default class extends React.Component {
                 if (friendIndex > -1) {
                     friendList.splice(friendIndex, 1);
                     currentUser.ref.update({ friendList: friendList });
+                    this.setState({ friendList: friendList });
                 }
             });
     }

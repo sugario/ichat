@@ -1,19 +1,31 @@
 import React from 'react';
 import './friendList.css';
+
 export default class extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: []
+        };
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({ data: props.data });
+    }
+
     render() {
         return (
-            <div class="friend-container">
+            <div className='friend-container'>
                 {
-                    this.props.data.map((element, i) => {
-                        console.log(element);
+                    this.state.data.map((element, i) => {
                         return (
-                            <div class="friend">
+                            <div key={i} className='friend'>
                                 <div>{element}</div>
-                                <div class="status">(Online)</div>
-                                <button class="add-button">Add</button>
+                                <div className='status'>(Online)</div>
+                                <button className='add-button'>Add</button>
                             </div>
-                        )
+                        );
                     })
                 }
             </div>
