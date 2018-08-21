@@ -15,6 +15,10 @@ export default class extends React.Component {
     }
 
     render() {
+        if (!this.state.data) {
+            return <div/>
+        }
+
         return (
             <div className='friend-container'>
                 {

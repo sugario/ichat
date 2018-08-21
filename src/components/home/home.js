@@ -11,6 +11,8 @@ export default class extends React.Component {
         this.state = {
             user: '',
             search: '',
+            searchResult: [],
+            searchFocused: false,
             friendList: []
         };
 
@@ -45,11 +47,14 @@ export default class extends React.Component {
             .orderByChild('email')
             .startAt(this.state.search)
             .endAt(this.state.search + '\uf8ff')
-            .limitToFirst(10)
+            .limitToFirst(5)
             .on('value', snapshot => {
+                let searchResult = [];
                 snapshot.forEach(user => {
-                    console.log(user.val());
+                    searchResult.push(user.val().email);
                 });
+
+                this.setState({ searchResult: searchResult });
             });
     }
 
@@ -124,6 +129,14 @@ export default class extends React.Component {
         });
     }
 
+    onBlur() {
+        this.setState({ searchFocused: false });
+    }
+
+    onFocus() {
+        this.setState({ searchFocused: true });
+    }
+
     render() {
         return (
             <div className='App'>
@@ -138,8 +151,15 @@ export default class extends React.Component {
                                placeholder='Search people'
                                value={this.state.search}
                                onChange={this.handleChange.bind(this)}
+                               onBlur={this.onBlur.bind(this)}
+                               onFocus={this.onFocus.bind(this)}
                         />
-                        <FriendList data={this.state.friendList} />
+                        {
+                            (this.state.searchFocused && this.state.search !== '')
+                                ? <FriendList data={this.state.searchResult} />
+                                : <FriendList data={this.state.friendList} />
+                        }
+                        
                         <button onClick={this.handleAddFriend.bind(this)}>Add friend</button>
                         <button onClick={this.handleRemoveFriend.bind(this)}>Remove friend</button>
                         <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
