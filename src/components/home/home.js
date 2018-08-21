@@ -1,6 +1,7 @@
 import React from 'react';
 import Firebase from '../../config/firebase';
 import Chat from '../chat/chat';
+import FriendList from '../friendList/friendList';
 import './home.css'
 
 export default class extends React.Component {
@@ -136,6 +137,7 @@ export default class extends React.Component {
                                value={this.state.search}
                                onChange={this.handleChange.bind(this)}
                         />
+                        <FriendList data={this.state.friendList} />
                         <button onClick={this.handleAddFriend.bind(this)}>Add friend</button>
                         <button onClick={this.handleRemoveFriend.bind(this)}>Remove friend</button>
                         <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
