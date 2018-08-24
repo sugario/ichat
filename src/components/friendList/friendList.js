@@ -1,4 +1,5 @@
 import React from 'react';
+import FriendListElement from './friendListElement';
 import './friendList.css';
 
 export default class extends React.Component {
@@ -6,12 +7,26 @@ export default class extends React.Component {
         super(props);
 
         this.state = {
-            data: []
+            data: props.data,
+            buttonText: props.buttonText,
+            handleButtonClick: props.handleButtonClick
         };
     }
 
+    componentDidMount() {
+        this._isMounted = true;
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     componentWillReceiveProps(props) {
-        this.setState({ data: props.data });
+        if (this._isMounted) {
+            this.setState({
+                ...props
+            });
+        }
     }
 
     render() {
@@ -23,13 +38,10 @@ export default class extends React.Component {
             <div className='friend-container'>
                 {
                     this.state.data.map((element, i) => {
-                        return (
-                            <div key={i} className='friend'>
-                                <div>{element.email}</div>
-                                <div className='status'>(Online)</div>
-                                <button className='add-button'>Add</button>
-                            </div>
-                        );
+                        return <FriendListElement key={i}
+                                                  user={element}
+                                                  buttonText={this.state.buttonText}
+                                                  buttonEvent={this.state.handleButtonClick} />
                     })
                 }
             </div>

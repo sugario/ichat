@@ -17,38 +17,13 @@ export default class extends React.Component {
         };
 
         this.usersRef = Firebase.database().ref().child('users');
+        this.handleAddFriend = this.handleAddFriend.bind(this);
+        this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
     }
 
     componentWillReceiveProps(props) {
         this.setState({ user: props.user },
-                      this.updateFriendlist);
-    }
-
-    async updateFriendlist() {
-        if (!this.state.user) {
-            return;
-        }
-
-        let friendList = [];
-        let emailList = [];
-
-        await this.usersRef
-            .orderByChild('email')
-            .equalTo(this.state.user.email)
-            .once('child_added', currentUser => {
-                emailList = currentUser.child('friendList').val();
-            });
-
-        for (let email of emailList) {
-            await this.usersRef
-                .orderByChild('email')
-                .equalTo(email)
-                .once('child_added', friend => {
-                    friendList.push(friend.val());
-                });
-        }
-
-        this.setState({ friendList: friendList });
+                      this.startFriendListListener);
     }
 
     handleChange(e) {
@@ -56,7 +31,27 @@ export default class extends React.Component {
                       this.handleSearchKeyPress);
     }
 
+    startFriendListListener() {
+        if (!this.state.user) {
+            return;
+        }
+
+        this.usersRef
+            .orderByChild('email')
+            .equalTo(this.state.user.email)
+            .on('value', currentUser => {
+                currentUser.forEach((user) => {
+                    this.setState({ friendList: user.val().friendList });
+                });
+            });
+    }
+
     handleSearchKeyPress() {
+        if (this.state.search === '') {
+            this.setState({ searchResult: [] });
+            return;
+        }
+
         this.usersRef
             .orderByChild('email')
             .startAt(this.state.search)
@@ -76,79 +71,52 @@ export default class extends React.Component {
         Firebase.auth().signOut();
     }
 
-    handleAddFriend(e) {
-        e.preventDefault();
+    handleAddFriend(user) {
+        let friendList = this.state.friendList;
+        if (!friendList) {
+            friendList = [];
+        }
 
+        for (let friend in friendList) {
+            if (friendList[friend].email === user.email) {
+                return;
+            }
+        }
+
+        friendList.push(user);
         this.usersRef
             .orderByChild('email')
             .equalTo(this.state.user.email)
             .once('child_added', currentUser => {
-                let friendList = currentUser.child('friendList').val();
-                if (!friendList) {
-                    friendList = [];
-                }
-
-                if (this.state.search && friendList.indexOf(this.state.search) < 0) {
-                    friendList.push(this.state.search);
-                    friendList.sort();
-                    currentUser.ref.update({ friendList: friendList });
-                    this.setState({ friendList: friendList });
-                }
+                currentUser.ref.update({ friendList: friendList });
             });
     }
 
-    handleRemoveFriend(e) {
-        e.preventDefault();
+    handleRemoveFriend(user) {
+        let friendList = this.state.friendList;
+        if (!friendList) {
+            return;
+        }
+
+        for (let index in friendList) {
+            if (friendList[index].email === user.email) {
+                friendList.splice(index, 1);
+                return;
+            }
+        }
 
         this.usersRef
             .orderByChild('email')
             .equalTo(this.state.user.email)
             .once('child_added', currentUser => {
-                let friendList = currentUser.child('friendList').val();
-                if (!friendList || !this.state.search) {
-                    return;
-                }
-
-                const friendIndex = friendList.indexOf(this.state.search);
-                if (friendIndex > -1) {
-                    friendList.splice(friendIndex, 1);
-                    currentUser.ref.update({ friendList: friendList });
-                    this.setState({ friendList: friendList });
-                }
+                currentUser.ref.update({ friendList: friendList });
             });
     }
 
     async logFriendsData(e) {
         e.preventDefault();
 
-        let friendList;
-        await this.usersRef
-            .orderByChild('email')
-            .equalTo(this.state.user.email)
-            .once('child_added', currentUser => {
-                friendList = currentUser.child('friendList').val();
-            });
-
-        if (!friendList) {
-            return
-        }
-
-        friendList.forEach(friend => {
-            this.usersRef
-                .orderByChild('email')
-                .equalTo(friend)
-                .once('value', user => {
-                    console.log(user.val());
-                });
-        });
-    }
-
-    onBlur() {
-        this.setState({ searchFocused: false });
-    }
-
-    onFocus() {
-        this.setState({ searchFocused: true });
+        console.log(this.state.friendList);
     }
 
     render() {
@@ -159,23 +127,28 @@ export default class extends React.Component {
                         <div className="logo">iChat</div>
                         <button onClick={this.logout.bind(this)}>Logout</button>
                     </div>
-                    <div className='item fr iend-list'>
+                    <div className='item friend-list'>
                         <input name='search'
                                type='text'
                                placeholder='Search people'
                                value={this.state.search}
                                onChange={this.handleChange.bind(this)}
-                               onBlur={this.onBlur.bind(this)}
-                               onFocus={this.onFocus.bind(this)}
-                        />
+                               ref={(element) => { this.searchInput = element; }} />
                         {
-                            (this.state.searchFocused && this.state.search !== '')
-                                ? <FriendList data={this.state.searchResult} />
-                                : <FriendList data={this.state.friendList} />
+                            (this.state.search !== '')
+                                ? <FriendList data={this.state.searchResult}
+                                              buttonText='Add'
+                                              handleButtonClick={this.handleAddFriend} />
+                                : <div />
                         }
 
-                        <button onClick={this.handleAddFriend.bind(this)}>Add friend</button>
-                        <button onClick={this.handleRemoveFriend.bind(this)}>Remove friend</button>
+                        {
+                            (this.state.search === '')
+                                ? <FriendList data={this.state.friendList}
+                                              buttonText='Remove'
+                                              handleButtonClick={this.handleRemoveFriend} />
+                                : <div />
+                        }
                         <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
                     </div>
                     <div className='item main'>
