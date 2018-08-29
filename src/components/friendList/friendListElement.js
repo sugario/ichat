@@ -10,7 +10,8 @@ export default class extends React.Component {
             user: props.user,
             buttonText: props.buttonText,
             buttonEvent: props.buttonEvent,
-            status: 'offline'
+            status: 'offline',
+            handleFriendSelect: props.handleFriendSelect
         };
 
         this.usersRef = Firebase.database().ref().child('users');
@@ -47,7 +48,7 @@ export default class extends React.Component {
     render() {
         return (
             <div className='friend'>
-                <div>{this.state.user.email}</div>
+                <div onClick={() => this.state.handleFriendSelect(this.state.user)}>{this.state.user.email}</div>
                 <div className='status'>({this.state.status})</div>
                 <button className='add-button' onClick={() => { this.state.buttonEvent(this.state.user) }}>
                     {this.state.buttonText}

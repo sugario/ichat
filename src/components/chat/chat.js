@@ -11,18 +11,17 @@ export default class extends React.Component {
             userName: 'User',
             message: '',
             list: [],
+            chatTarget: {}
         };
 
         this.messageRef = Firebase.database().ref().child('messages');
+        this.listenMessages = this.listenMessages.bind(this);
     }
-
-    componentDidMount() {
-        this.listenMessages();
-    }
-
+    
     componentWillReceiveProps(props) {
         if (props.user && props.user.email) {
-            this.setState({ userName: props.user.email });
+            this.setState({ userName: props.user.email, chatTarget: props.chatTarget },
+                          () => { this.listenMessages() });
         }
     }
 
@@ -34,6 +33,7 @@ export default class extends React.Component {
         if (this.state.message) {
             this.messageRef.push({
                 userName: this.state.userName,
+                chatTarget: this.state.chatTarget,
                 message: this.state.message
             });
 
@@ -51,14 +51,27 @@ export default class extends React.Component {
 
     listenMessages() {
         this.messageRef
-            .limitToLast(10)
             .on('value', message => {
-                message = message.val();
-                if (message) {
-                    this.setState({
-                        list: Object.values(message)
-                    });
+                message = Object.values(message.val());
+                if (!message) {
+                    return;
                 }
+
+                message = message.filter(msg => {
+                    if (!this.state.chatTarget || !this.state.chatTarget.email) {
+                        return !msg.chatTarget;
+                    } else if (msg.chatTarget && msg.chatTarget.email) {
+                        return (msg.chatTarget.email === this.state.chatTarget.email) ||
+                               (msg.chatTarget.email === this.state.userName &&
+                                    this.state.chatTarget.email === msg.userName)
+                    }
+
+                    return false;
+                });
+
+                this.setState({
+                    list: message
+                });
             });
     }
 
@@ -69,6 +82,7 @@ export default class extends React.Component {
                     {this.state.list.map((item, index) =>
                         <Message key={index} message={item} currentUser={this.state.userName} />
                     )}
+                    <div>Chatting with: {this.state.chatTarget.email}</div>
                 </div>
                 <div className='form_row'>
                     <input className='form_input'

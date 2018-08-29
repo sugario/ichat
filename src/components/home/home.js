@@ -13,16 +13,18 @@ export default class extends React.Component {
             search: '',
             searchResult: [],
             searchFocused: false,
-            friendList: []
+            friendList: [],
+            chatTarget: {}
         };
 
         this.usersRef = Firebase.database().ref().child('users');
         this.handleAddFriend = this.handleAddFriend.bind(this);
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
+        this.selectNewChatTarget = this.selectNewChatTarget.bind(this);
     }
 
     componentWillReceiveProps(props) {
-        this.setState({ user: props.user },
+        this.setState({ ...props },
                       this.startFriendListListener);
     }
 
@@ -117,6 +119,11 @@ export default class extends React.Component {
         e.preventDefault();
 
         console.log(this.state.friendList);
+        console.log(this.state.chatTarget);
+    }
+
+    selectNewChatTarget(targetUser) {
+        this.setState({ chatTarget: targetUser });
     }
 
     render() {
@@ -138,7 +145,8 @@ export default class extends React.Component {
                             (this.state.search !== '')
                                 ? <FriendList data={this.state.searchResult}
                                               buttonText='Add'
-                                              handleButtonClick={this.handleAddFriend} />
+                                              handleButtonClick={this.handleAddFriend}
+                                              handleFriendSelect={this.selectNewChatTarget} />
                                 : <div />
                         }
 
@@ -146,13 +154,14 @@ export default class extends React.Component {
                             (this.state.search === '')
                                 ? <FriendList data={this.state.friendList}
                                               buttonText='Remove'
-                                              handleButtonClick={this.handleRemoveFriend} />
+                                              handleButtonClick={this.handleRemoveFriend}
+                                              handleFriendSelect={this.selectNewChatTarget} />
                                 : <div />
                         }
                         <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
                     </div>
                     <div className='item main'>
-                        <Chat user={this.state.user} />
+                        <Chat user={this.state.user} chatTarget={this.state.chatTarget} />
                     </div>
                 </div>
             </div>

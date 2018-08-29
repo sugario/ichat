@@ -9,7 +9,8 @@ export default class extends React.Component {
         this.state = {
             data: props.data,
             buttonText: props.buttonText,
-            handleButtonClick: props.handleButtonClick
+            handleButtonClick: props.handleButtonClick,
+            handleFriendSelect: null
         };
     }
 
@@ -41,7 +42,8 @@ export default class extends React.Component {
                         return <FriendListElement key={i}
                                                   user={element}
                                                   buttonText={this.state.buttonText}
-                                                  buttonEvent={this.state.handleButtonClick} />
+                                                  buttonEvent={this.state.handleButtonClick}
+                                                  handleFriendSelect={this.state.handleFriendSelect} />
                     })
                 }
             </div>
