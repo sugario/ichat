@@ -24,6 +24,12 @@ export default class extends React.Component {
         this.attachStatusListener();
     }
 
+    componentWillReceiveProps(props) {
+        this.setState({
+            ...props
+        });
+    }
+
     refreshStatus() {
         this.usersRef
             .orderByChild('email')
