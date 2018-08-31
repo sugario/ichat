@@ -37,6 +37,10 @@ export default class extends React.Component {
 
         return (
             <div className='friend-container'>
+                <FriendListElement user={{}}
+                                   buttonText={''}
+                                   buttonEvent={this.state.handleButtonClick}
+                                   handleFriendSelect={this.state.handleFriendSelect} />
                 {
                     this.state.data.map((element, i) => {
                         return <FriendListElement key={i}

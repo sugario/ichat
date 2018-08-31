@@ -20,6 +20,10 @@ export default class extends React.Component {
     }
 
     componentDidMount() {
+        if (!this.state.user || !this.state.user.email) {
+            return;
+        }
+
         this.refreshStatus();
         this.attachStatusListener();
     }
@@ -54,7 +58,13 @@ export default class extends React.Component {
     render() {
         return (
             <div className='friend'>
-                <div onClick={() => this.state.handleFriendSelect(this.state.user)}>{this.state.user.email}</div>
+                <div onClick={() => this.state.handleFriendSelect(this.state.user)}>
+                {
+                    (!this.state.user.email)
+                        ? 'Discussion Board'
+                        : this.state.user.email
+                }
+                </div>
                 <div className='status'>({this.state.status})</div>
                 <button className='add-button' onClick={() => { this.state.buttonEvent(this.state.user) }}>
                     {this.state.buttonText}
