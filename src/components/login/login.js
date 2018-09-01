@@ -1,32 +1,29 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
-import Firebase from '../../config/firebase';
+import React from 'react';
+import { Link } from 'react-router-dom';
+
 import Color from '../constants/color';
-import './logis.css'
+import Firebase from '../../config/firebase';
+
+import './logis.css';
 
 /*
  *  Default user:       admin@admin.com
  *  Default password:   adminadmin
  */
 
-class Login extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
-
-        this.applyErrorText = this.applyErrorText.bind(this);
-
-        this.invalidEmail = this.invalidEmail.bind(this);
-        this.wrongPassword = this.wrongPassword.bind(this);
-        this.handleLoginError = this.handleLoginError.bind(this);
-
-        this.login = this.login.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.recoverAccount = this.recoverAccount.bind(this);
 
         this.state = {
             email: '',
             password: ''
         };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.applyErrorText = this.applyErrorText.bind(this);
+        this.invalidEmail = this.invalidEmail.bind(this);
+        this.wrongPassword = this.wrongPassword.bind(this);
     }
 
     handleChange(e) {
@@ -71,7 +68,6 @@ class Login extends Component {
         e.preventDefault();
         Firebase.auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => { })
             .catch((error) => {
                 this.handleLoginError(error);
             });
@@ -84,7 +80,6 @@ class Login extends Component {
             .then(() => {
                 this.applyErrorText('Check your mail!');
                 this.errorParagraph.style.color = Color.GREEN;
-
             }).catch((error) => {
                 this.applyErrorText('The email address is badly formatted or account does not exist.');
             });
@@ -95,23 +90,35 @@ class Login extends Component {
             <div id='login-overlay'>
                 <form id='login-form'>
                     <p className='center-text'>Welcome to iChat!</p>
-
-                    <img id='avatar' src={require('../../images/avatar.png')} alt='avatar' />
+                    <img id='avatar'
+                         src={require('../../images/avatar.png')}
+                         alt='avatar' />
 
                     <input type='email' name='email' id='email'
-                        value={this.state.email} onChange={this.handleChange}
-                        ref={(element) => { this.emailInput = element; }}
-                        placeholder='Enter email' />
+                           value={this.state.email}
+                           onChange={this.handleChange}
+                           ref={element => { this.emailInput = element; }}
+                           placeholder='Enter email' />
 
                     <input type='password' name='password' id='password'
-                        value={this.state.password} onChange={this.handleChange}
-                        ref={(element) => { this.passwordInput = element; }}
-                        placeholder='Enter password' />
+                           value={this.state.password}
+                           onChange={this.handleChange}
+                           ref={element => { this.passwordInput = element; }}
+                           placeholder='Enter password' />
 
-                    <p id='error-text' ref={(element) => { this.errorParagraph = element; }} />
+                    <p id='error-text'
+                       ref={element => { this.errorParagraph = element; }} />
 
-                    <button className='green' type='submit' onClick={this.login}>Login</button>
-                    <button className='blue' type='submit' onClick={this.recoverAccount}>Recover your account</button>
+                    <button className='green'
+                            type='submit'
+                            onClick={this.login.bind(this)}>
+                                Login
+                    </button>
+                    <button className='blue'
+                            type='submit'
+                            onClick={this.recoverAccount.bind(this)}>
+                                Recover your account
+                    </button>
 
                     <Link className='center-text' to='/registration'>Sign up</Link>
                 </form>
@@ -119,5 +126,3 @@ class Login extends Component {
         );
     }
 }
-
-export default Login;
