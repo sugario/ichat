@@ -1,17 +1,13 @@
-import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom'
+import React from 'react';
+import { Link, Redirect } from 'react-router-dom';
 
 import Firebase from '../../config/firebase';
 
 import './registration.css';
 
-class Registration extends Component {
+export default class extends React.Component {
     constructor(props) {
         super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-
-        this.signup = this.signup.bind(this);
 
         this.state = {
             email: '',
@@ -29,7 +25,6 @@ class Registration extends Component {
 
     signup(e) {
         e.preventDefault();
-
         if (this.state.password !== this.state.passwordRepeat) {
             alert('Oh no! Something went wrong.');
             return;
@@ -37,19 +32,15 @@ class Registration extends Component {
 
         Firebase.auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then((u) => {
+            .then(user => {
                 this.usersRef.push({
-                    uid: u.user.uid,
-                    displayName: u.user.displayName,
-                    email: u.user.email,
-                    emailVerified: u.user.emailVerified,
-                    photoURL: u.user.photoURL,
-                    phoneNumber: u.user.phoneNumber,
-                    metadata: u.user.metadata
+                    uid: user.user.uid,
+                    email: user.user.email
                 });
-            }).then((u) => {
+            }).then(_ => {
+                Firebase.auth().signOut();
                 this.setState({ redirectToHome: true });
-            }).catch((error) => {
+            }).catch(_ => {
                 alert('Oh no! Something went wrong.');
             });
     }
@@ -67,31 +58,51 @@ class Registration extends Component {
                     <hr className='hr-top' />
 
                     <label>Email</label>
-                    <input type='text' placeholder='Enter email' name='email' id='email'
-                        onChange={this.handleChange} value={this.state.email}
-                        className='no-radius' required />
+                    <input placeholder='Enter email'
+                           name='email'
+                           id='email'
+                           className='no-radius'
+                           type='text'
+                           onChange={this.handleChange.bind(this)}
+                           value={this.state.email}
+                           required />
 
                     <label>Password</label>
-                    <input type='password' placeholder='Enter password' name='password' id='password'
-                        onChange={this.handleChange} value={this.state.password}
-                        className='no-radius' required />
+                    <input placeholder='Enter password'
+                           name='password'
+                           id='password'
+                           className='no-radius'
+                           type='password'
+                           onChange={this.handleChange.bind(this)}
+                           value={this.state.password}
+                           required />
 
                     <label>Repeat Password</label>
-                    <input type='password' placeholder='Repeat password' name='passwordRepeat' id='passwordRepeat'
-                        onChange={this.handleChange} value={this.state.passwordRepeat}
-                        className='no-radius' required />
+                    <input  placeholder='Repeat password'
+                            name='passwordRepeat'
+                            id='passwordRepeat'
+                            className='no-radius'
+                            type='password'
+                            onChange={this.handleChange.bind(this)}
+                            value={this.state.passwordRepeat}
+                            required />
 
                     <hr className='hr-bottom' />
 
-                    <button type='submit' className='blue' onClick={this.signup}>Register</button>
+                    <button type='submit'
+                            className='blue'
+                            onClick={this.signup.bind(this)}>
+                                Register
+                    </button>
 
                     <div className='signin center-text'>
-                        <p>Already have an account? <Link style={{ color: 'blue' }} to='/home'>Sign in.</Link></p>
+                        <p>
+                            Already have an account?
+                            <Link style={{ color: 'blue' }} to='/home'> Sign in.</Link>
+                        </p>
                     </div>
                 </form>
             </div>
         );
     }
 }
-
-export default Registration;
