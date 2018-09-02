@@ -1,6 +1,8 @@
 import React from 'react';
 import Firebase from '../../config/firebase';
+
 import Message from '../message/message';
+
 import './chat.css';
 
 export default class extends React.Component {
@@ -17,11 +19,13 @@ export default class extends React.Component {
         this.messageRef = Firebase.database().ref().child('messages');
         this.listenMessages = this.listenMessages.bind(this);
     }
-    
+
     componentWillReceiveProps(props) {
         if (props.user && props.user.email) {
-            this.setState({ userName: props.user.email, chatTarget: props.chatTarget },
-                          () => { this.listenMessages() });
+            this.setState({
+                userName: props.user.email,
+                chatTarget: props.chatTarget
+            }, () => { this.listenMessages() });
         }
     }
 
@@ -79,10 +83,11 @@ export default class extends React.Component {
         return (
             <div className='form_chat'>
                 <div className='form_message'>
-                    {this.state.list.map((item, index) =>
-                        <Message key={index} message={item} currentUser={this.state.userName} />
+                    {[...this.state.list].reverse().map((item, index) =>
+                        <Message key={index}
+                                 message={item}
+                                 currentUser={this.state.userName} />
                     )}
-                    <div>Chatting with: {this.state.chatTarget.email}</div>
                 </div>
                 <div className='form_row'>
                     <input className='form_input'
@@ -92,8 +97,9 @@ export default class extends React.Component {
                            onChange={this.handleChange.bind(this)}
                            onKeyPress={this.handleKeyPress.bind(this)} />
                     <button className='form_button'
-                            onClick={this.handleSend.bind(this)}
-                    >send</button>
+                            onClick={this.handleSend.bind(this)}>
+                                send
+                    </button>
                 </div>
             </div>
         );

@@ -1,0 +1,20 @@
+.message {
+    display: inline-block;
+    font-size: 20px;
+    border-style: solid;
+    border-width: 0px;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 5px;
+    background-color: #6495ED;
+}
+
+.sent {
+    align-self: flex-end;
+    background-color: #6495ED;
+}
+
+.recieved {
+    align-self: flex-start;
+    background-color: #FF8C00;
+}
