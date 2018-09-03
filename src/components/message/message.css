@@ -10,10 +10,10 @@
 
 .sent {
     align-self: flex-end;
-    background-color: #6495ED;
+    background-color: #4CAF50;
 }
 
 .recieved {
     align-self: flex-start;
-    background-color: #FF8C00;
+    background-color: #6495ED;
 }

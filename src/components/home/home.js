@@ -1,8 +1,9 @@
 import React from 'react';
 import Firebase from '../../config/firebase';
+
 import Chat from '../chat/chat';
 import FriendList from '../friendList/friendList';
-import './home.css'
+import './home.css';
 
 export default class extends React.Component {
     constructor(props) {
@@ -25,7 +26,7 @@ export default class extends React.Component {
 
     componentWillReceiveProps(props) {
         this.setState({ ...props },
-                      this.startFriendListListener);
+                      this.startFriendlistListener);
     }
 
     handleChange(e) {
@@ -33,7 +34,7 @@ export default class extends React.Component {
                       this.handleSearchKeyPress);
     }
 
-    startFriendListListener() {
+    startFriendlistListener() {
         if (!this.state.user) {
             return;
         }
@@ -42,7 +43,7 @@ export default class extends React.Component {
             .orderByChild('email')
             .equalTo(this.state.user.email)
             .on('value', currentUser => {
-                currentUser.forEach((user) => {
+                currentUser.forEach(user => {
                     this.setState({ friendList: user.val().friendList });
                 });
             });
@@ -115,54 +116,44 @@ export default class extends React.Component {
             });
     }
 
-    async logFriendsData(e) {
-        e.preventDefault();
-
-        console.log(this.state.friendList);
-        console.log(this.state.chatTarget);
-    }
-
     selectNewChatTarget(targetUser) {
         this.setState({ chatTarget: targetUser });
     }
 
     render() {
         return (
-            <div className='App'>
-                <div className='site'>
-                    <div className='item header'>
-                        <div className="logo">iChat</div>
-                        <button onClick={this.logout.bind(this)}>Logout</button>
-                    </div>
-                    <div className='item friend-list'>
-                        <input name='search'
-                               type='text'
-                               placeholder='Search people'
-                               value={this.state.search}
-                               onChange={this.handleChange.bind(this)}
-                               ref={(element) => { this.searchInput = element; }} />
-                        {
-                            (this.state.search !== '')
-                                ? <FriendList data={this.state.searchResult}
-                                              buttonText='Add'
-                                              handleButtonClick={this.handleAddFriend}
-                                              handleFriendSelect={this.selectNewChatTarget} />
-                                : <div />
-                        }
-
-                        {
-                            (this.state.search === '')
-                                ? <FriendList data={this.state.friendList}
-                                              buttonText='Remove'
-                                              handleButtonClick={this.handleRemoveFriend}
-                                              handleFriendSelect={this.selectNewChatTarget} />
-                                : <div />
-                        }
-                        <button onClick={this.logFriendsData.bind(this)}>Log friends</button>
-                    </div>
-                    <div className='item main'>
-                        <Chat user={this.state.user} chatTarget={this.state.chatTarget} />
-                    </div>
+            <div className='site'>
+                <div className='item header'>
+                    <div className="logo">iChat</div>
+                    <button onClick={this.logout.bind(this)}>Logout</button>
+                </div>
+                <div className='item friend-list'>
+                    <input name='search'
+                            type='text'
+                            placeholder='Search people'
+                            value={this.state.search}
+                            onChange={this.handleChange.bind(this)}
+                            ref={(element) => { this.searchInput = element; }} />
+                    {
+                        (this.state.search !== '')
+                            ? <FriendList data={this.state.searchResult}
+                                            buttonText='Add'
+                                            handleButtonClick={this.handleAddFriend}
+                                            handleFriendSelect={this.selectNewChatTarget} />
+                            : <div />
+                    }
+                    {
+                        (this.state.search === '')
+                            ? <FriendList data={this.state.friendList}
+                                            buttonText='Remove'
+                                            handleButtonClick={this.handleRemoveFriend}
+                                            handleFriendSelect={this.selectNewChatTarget} />
+                            : <div />
+                    }
+                </div>
+                <div className='item main'>
+                    <Chat user={this.state.user}
+                            chatTarget={this.state.chatTarget} />
                 </div>
             </div>
         );

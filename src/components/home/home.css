@@ -1,80 +1,87 @@
 .site {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100vw;
+    display: grid;
+
+    grid-template-columns: 80vw 20vw;
+    grid-template-rows: auto 8em 1fr;
+    grid-template-areas:
+        'header header'
+        'main friend-list'
+        'main friend-list';
+
     height: 100vh;
-    margin: 0 auto;
-}
-
-.item {
-    color: white;
-    text-align: center;
-    padding: 0.5rem;
-    margin-bottom: 0.0em;
-}
-
-.item:last-child {
-    margin-bottom: 0;
+    width: 100vw;
 }
 
 .header {
-    background-color: #5900a6;
+    grid-area: header;
+
+    background-color: #333;
     display: flex;
     justify-content: space-between;
-    padding-left: 150px;
-    padding-right: 50px;
 }
 
 .header > .logo {
-  color: #ffff00;
-  font-size: 35px;
+    color: #FFF;
+    font-size: 35px;
+    margin: 5px 0 0 10%;
+}
+
+.header > button {
+    width: 19vw;
 }
 
 .friend-list {
-    background-color: #6495ED;
-    flex: auto;
-    justify-content: space-around;
-    align-content: flex-start;
-    align-items: center;
+    grid-area: friend-list;
+
+    background-color: #333;
+    color: #FFF
 }
 
 .main {
+    grid-area: main;
+
     display: flex;
     flex: auto;
     justify-content: space-around;
-    align-content: flex-start;
-    align-items: center;
-    background-color: #EEFFFF;
+    background-color: #F8B5AC;
 }
 
-@supports (display: grid) {
-    @media screen and (min-width: 700px)  {
-        .site {
-            display: grid;
-            grid-template-columns: 1fr 1fr 250px;
-            grid-template-rows: auto 8em 1fr auto;
-            grid-template-areas:
-                'header header header'
-                'main main friend-list'
-                'main main friend-list';
-            grid-gap: 0.0em;
-        }
+.item {
+    color: #FFF;
+    text-align: center;
+    padding: 0.5em;
+}
 
-        .item {
-            margin-bottom: 0;
-        }
 
-        .header {
-            grid-area: header;
-        }
+@media screen and (max-width: 700px) {
+    .site {
+        grid-template-columns: 99vw 1vw;
+        grid-template-areas:
+            'header header'
+            'main unset'
+            'main unset';
+    }
 
-        .friend-list {
-            grid-area: friend-list;
-        }
+    .header > button {
+        width: unset;
 
-        .main {
-            grid-area: main;
-        }
+    }
+
+    .friend-list {
+        grid-area: main;
+
+        margin-left: 98vw;
+        padding-left: 15px;
+        width: 100vw;
+        z-index: 1;
+
+        transition:         margin 300ms ease-out;
+        -moz-transition:    margin 300ms ease-out;
+        -webkit-transition: margin 300ms ease-out;
+        -o-transition:      margin 300ms ease-out;
+    }
+
+    .friend-list:hover {
+        margin-left: 0;
     }
 }
