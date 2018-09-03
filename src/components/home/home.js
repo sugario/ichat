@@ -124,7 +124,7 @@ export default class extends React.Component {
         return (
             <div className='site'>
                 <div className='item header'>
-                    <div className="logo">iChat</div>
+                    <img src={require('../../images/logo.png')} className="logo" />
                     <button onClick={this.logout.bind(this)}>Logout</button>
                 </div>
                 <div className='item friend-list'>

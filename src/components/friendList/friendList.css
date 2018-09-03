@@ -1,3 +1,9 @@
 .friend-container {
     width: 100%;
 }
+
+.friend:hover { 
+    background-color: #f8f8f8;
+    color: #000000;
+    width: 100%;
+}

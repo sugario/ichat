@@ -57,19 +57,33 @@ export default class extends React.Component {
 
     render() {
         return (
-            <div className='friend'>
-                <div onClick={() => this.state.handleFriendSelect(this.state.user)}>
-                {
-                    (!this.state.user.email)
-                        ? 'Discussion Board'
-                        : this.state.user.email
-                }
+            <div className='friend' onClick={() => this.state.handleFriendSelect(this.state.user)}>
+                <div className='name-and-status'>
+                    <div className='friend-name'>
+                    {
+                        (!this.state.user.email)
+                            ? 'Discussion Board'
+                            : this.state.user.email
+                    }
+                    </div>
+                    <div className={this.state.status + ' status'}>
+                    {
+                        (!this.state.user.email)
+                            ? ''
+                            : '•'
+                    }    
+                    </div>
                 </div>
-                <div className='status'>({this.state.status})</div>
-                <button className='add-button' onClick={() => { this.state.buttonEvent(this.state.user) }}>
-                    {this.state.buttonText}
-                </button>
-            </div>
+
+                {
+                    (!this.state.buttonText)
+                        ?   ''
+                        :   <button className='add-button' onClick={() => { this.state.buttonEvent(this.state.user) }}>
+                                {this.state.buttonText}
+                            </button>
+                }
+                
+                </div>
         );
     }
 }

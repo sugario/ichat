@@ -21,9 +21,8 @@
 }
 
 .header > .logo {
-    color: #FFF;
-    font-size: 35px;
-    margin: 5px 0 0 10%;
+    height: 60px;
+    margin: 0 0 0 100px;
 }
 
 .header > button {
@@ -43,13 +42,13 @@
     display: flex;
     flex: auto;
     justify-content: space-around;
-    background-color: #F8B5AC;
+    background-color: #FDFDFD;
 }
 
 .item {
     color: #FFF;
     text-align: center;
-    padding: 0.5em;
+    padding: 0.5em 0px;
 }
 
 
