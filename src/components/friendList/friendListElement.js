@@ -1,5 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Firebase from '../../config/firebase';
+
 import './friendListElement.css';
 
 export default class extends React.Component {
@@ -58,7 +60,10 @@ export default class extends React.Component {
     render() {
         return (
             <div className='friend'
-                 onClick={() => this.state.handleFriendSelect(this.state.user)}>
+                 onClick={() => {
+                     this.state.handleFriendSelect(this.state.user,
+                                                   ReactDOM.findDOMNode(this));
+                 }}>
                 <div className='name-and-status'>
                     <div className={this.state.status + ' status'}>
                     {

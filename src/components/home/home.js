@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Firebase from '../../config/firebase';
 
 import Chat from '../chat/chat';
@@ -15,13 +16,26 @@ export default class extends React.Component {
             searchResult: [],
             searchFocused: false,
             friendList: [],
-            chatTarget: {}
+            chatTarget: {},
+            chatTargetElement: null
         };
 
         this.usersRef = Firebase.database().ref().child('users');
         this.handleAddFriend = this.handleAddFriend.bind(this);
         this.handleRemoveFriend = this.handleRemoveFriend.bind(this);
         this.selectNewChatTarget = this.selectNewChatTarget.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.state.chatTargetElement) {
+            return;
+        }
+
+        this.selectNewChatTarget(
+            {},
+            ReactDOM.findDOMNode(this)
+                    .getElementsByClassName('friend')[0]
+        );
     }
 
     componentWillReceiveProps(props) {
@@ -116,8 +130,17 @@ export default class extends React.Component {
             });
     }
 
-    selectNewChatTarget(targetUser) {
-        this.setState({ chatTarget: targetUser });
+    selectNewChatTarget(targetUser, targetElement) {
+        if (this.state.chatTargetElement) {
+            this.state.chatTargetElement.classList.remove('friend-active');
+        }
+
+        this.setState({
+            chatTarget: targetUser,
+            chatTargetElement: targetElement
+         }, () => {
+             this.state.chatTargetElement.classList.add('friend-active');
+         });
     }
 
     render() {

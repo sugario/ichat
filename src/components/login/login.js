@@ -68,7 +68,7 @@ export default class extends React.Component {
         e.preventDefault();
         Firebase.auth()
             .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .catch((error) => {
+            .catch(error => {
                 this.handleLoginError(error);
             });
     }
@@ -80,7 +80,7 @@ export default class extends React.Component {
             .then(() => {
                 this.applyErrorText('Check your mail!');
                 this.errorParagraph.style.color = Color.GREEN;
-            }).catch((error) => {
+            }).catch(error => {
                 this.applyErrorText('The email address is badly formatted or account does not exist.');
             });
     }

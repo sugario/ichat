@@ -7,6 +7,7 @@
     width: 100%;
 }
 
+.friend-active,
 .friend:hover {
     background-color: #F8F8F8;
     border-radius: 0  25px 25px 0;
