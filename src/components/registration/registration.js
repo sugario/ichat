@@ -40,8 +40,8 @@ export default class extends React.Component {
             }).then(_ => {
                 Firebase.auth().signOut();
                 this.setState({ redirectToHome: true });
-            }).catch(_ => {
-                alert('Oh no! Something went wrong.');
+            }).catch(error => {
+                alert(error.message);
             });
     }
 
