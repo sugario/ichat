@@ -27,10 +27,10 @@ button {
 }
 
 button:hover {
-    -moz-box-shadow:inset 0px 0px 0px 2px #000;
-    -webkit-box-shadow:inset 0px 0px 0px 2px #000;
-    box-shadow:inset 0px 0px 0px 2px #000;
-    color: #000;
+    -moz-box-shadow:inset 0px 0px 0px 2px #333;
+    -webkit-box-shadow:inset 0px 0px 0px 2px #333;
+    box-shadow:inset 0px 0px 0px 2px #333;
+    color: #333;
     cursor: pointer;
 }
 
