@@ -47,7 +47,7 @@
 .main {
     grid-area: main;
 
-    background-color: #F8B5AC;
+    background-color: #ECF0F1;
     display: flex;
     justify-content: space-around;
     flex: auto;
