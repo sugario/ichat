@@ -27,6 +27,8 @@
 
 .header > button {
     width: 360px;
+
+    border-radius: 0;
 }
 
 .friend-list {
@@ -38,7 +40,8 @@
 }
 
 .friend-list > input {
-    margin-bottom: 15px;
+    margin: 20px 0;
+    width: 90%;
 }
 
 .main {
@@ -52,7 +55,6 @@
 
 .item {
     color: #FFF;
-    padding-top: 8px;
     text-align: center;
 }
 
@@ -74,6 +76,7 @@
         grid-area: main;
         margin-left: 98vw;
         padding-left: 15px;
+        text-align: left;
         width: 100vw;
         z-index: 1;
 
@@ -81,6 +84,12 @@
         -moz-transition:    margin 300ms ease-out;
         -webkit-transition: margin 300ms ease-out;
         -o-transition:      margin 300ms ease-out;
+    }
+
+    .friend-list > input {
+        margin-top: 50px;
+        padding: 20px;
+        width: 97%;
     }
 
     .friend-list:hover {
