@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Color from '../constants/color';
 import Firebase from '../../config/firebase';
 
-import './logis.css';
+import './login.css';
 
 /*
  *  Default user:       admin@admin.com

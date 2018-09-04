@@ -1,9 +1,9 @@
 .friend-container {
-    width: 100%;
-}
+    box-sizing: content-box;
+    display: block;
+    overflow-y: scroll;
+    padding-right: 100px;
 
-.friend:hover { 
-    background-color: #f8f8f8;
-    color: #000000;
+    height: 95%;
     width: 100%;
 }

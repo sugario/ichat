@@ -124,36 +124,38 @@ export default class extends React.Component {
         return (
             <div className='site'>
                 <div className='item header'>
-                    <img src={require('../../images/logo.png')} className="logo" />
+                    <img alt='logo'
+                         src={require('../../images/logo.png')}
+                         className='logo' />
                     <button onClick={this.logout.bind(this)}>Logout</button>
                 </div>
                 <div className='item friend-list'>
                     <input name='search'
-                            type='text'
-                            placeholder='Search people'
-                            value={this.state.search}
-                            onChange={this.handleChange.bind(this)}
-                            ref={(element) => { this.searchInput = element; }} />
+                           type='text'
+                           placeholder='Search people'
+                           value={this.state.search}
+                           onChange={this.handleChange.bind(this)}
+                           ref={(element) => { this.searchInput = element; }} />
                     {
                         (this.state.search !== '')
                             ? <FriendList data={this.state.searchResult}
-                                            buttonText='Add'
-                                            handleButtonClick={this.handleAddFriend}
-                                            handleFriendSelect={this.selectNewChatTarget} />
+                                          buttonText='Add'
+                                          handleButtonClick={this.handleAddFriend}
+                                          handleFriendSelect={this.selectNewChatTarget} />
                             : <div />
                     }
                     {
                         (this.state.search === '')
                             ? <FriendList data={this.state.friendList}
-                                            buttonText='Remove'
-                                            handleButtonClick={this.handleRemoveFriend}
-                                            handleFriendSelect={this.selectNewChatTarget} />
+                                          buttonText='Remove'
+                                          handleButtonClick={this.handleRemoveFriend}
+                                          handleFriendSelect={this.selectNewChatTarget} />
                             : <div />
                     }
                 </div>
                 <div className='item main'>
                     <Chat user={this.state.user}
-                            chatTarget={this.state.chatTarget} />
+                          chatTarget={this.state.chatTarget} />
                 </div>
             </div>
         );
