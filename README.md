@@ -1,8 +1,7 @@
 ### `IMPORTANT INFO`
-Firebase data is missing, and to host an example of this project you will need to fill it in src/config/firebase.js).
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-Example can be seen at: [ichat-fesb.000webhostapp.com](ichat-fesb.000webhostapp.com)
+Firebase data is missing. To host an example of this project fill out required info inside `src/config/firebase.js`.
+Example can be seen at: [https://ichat-fesb.000webhostapp.com](ichat-fesb.000webhostapp.com)
 
 ## Available Scripts
 
