@@ -1,9 +1,0 @@
-.friend-container {
-    box-sizing: content-box;
-    display: block;
-    overflow-y: scroll;
-    padding-right: 100px;
-
-    height: 95%;
-    width: 100%;
-}
